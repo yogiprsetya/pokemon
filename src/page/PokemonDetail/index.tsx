@@ -51,6 +51,7 @@ const PokemonDetail = () => {
         show={!!selectedId}
         id={selectedId}
         name={pokemon?.name}
+        onSuccess={() => setIsCatched(true)}
         onClose={() => {
           setSelectedId(0);
           getLocalStorage('mypokemon');

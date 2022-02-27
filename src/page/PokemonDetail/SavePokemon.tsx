@@ -7,6 +7,7 @@ interface ISavePokemon {
   name: string;
   show: boolean;
   onClose(): any;
+  onSuccess(): any;
 }
 
 const SavePokemon = (props: ISavePokemon) => {
@@ -23,6 +24,7 @@ const SavePokemon = (props: ISavePokemon) => {
 
     setLocalStorage('mypokemon', [...dataExist, data]);
     props.onClose();
+    props.onSuccess();
   };
 
   return (

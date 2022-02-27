@@ -1,18 +1,20 @@
 import { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
 import PokemonCard from 'lib/components/PokemonCard';
-import { getLocalStorage, setLocalStorage } from 'service/localStorage';
+import { setMyPokemon } from 'store/myPokemon.action';
+import { setLocalStorage } from 'service/localStorage';
 
-interface IPokemons {
+interface IPokemonList {
   id: string;
   nickname: string;
   originName: string;
 }
 
-const PokemonList = () => {
+const PokemonList = ({ pokemons, dispatch }) => {
   const history = useHistory();
-  const [pokemons, setPokemons] = useState<IPokemons[]>([]);
+  const [pokemonList, setPokemonList] = useState<IPokemonList[]>([]);
 
   const release = (id) => {
     pokemons.splice(
@@ -22,17 +24,12 @@ const PokemonList = () => {
       1
     );
 
-    console.log(pokemons);
+    dispatch(setMyPokemon(pokemons));
+    setLocalStorage('mypokemon', pokemons);
+    setPokemonList(pokemons);
   };
 
-  useEffect(() => {
-    (async () => {
-      const res = getLocalStorage('mypokemon');
-      console.log(res);
-
-      setPokemons(res);
-    })();
-  }, []);
+  useEffect(() => {}, [pokemons]);
 
   return (
     <Container className='mt-5'>
@@ -46,9 +43,11 @@ const PokemonList = () => {
               onClick={() => history.push(`pokemon/${v.id}`)}
             />
 
-            <Button variant='danger' onClick={() => release(v.id)}>
-              Remove
-            </Button>
+            <div className='d-flex justify-content-center mt-1'>
+              <Button variant='danger' onClick={() => release(v.id)}>
+                Remove
+              </Button>
+            </div>
           </Col>
         ))}
       </Row>
@@ -56,4 +55,8 @@ const PokemonList = () => {
   );
 };
 
-export default PokemonList;
+const mapStateToProps = (state) => ({
+  pokemons: state.myPokemon.pokemons,
+});
+
+export default connect(mapStateToProps)(PokemonList);
