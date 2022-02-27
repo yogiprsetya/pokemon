@@ -18,9 +18,13 @@ const PokemonDetail = () => {
       setPokemon(res.data);
     })();
 
-    setIsCatched(
-      getLocalStorage('mypokemon').find(({ id: localId }) => localId === id)
-    );
+    if (getLocalStorage('mypokemon')) {
+      setIsCatched(
+        getLocalStorage('mypokemon').find(
+          ({ id: localId }) => localId === id
+        ) || false
+      );
+    }
   }, [id]);
 
   return (

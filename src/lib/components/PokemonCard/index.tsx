@@ -11,7 +11,7 @@ interface IPokemonCard {
 
 const PokemonCard = (props: IPokemonCard) => {
   return (
-    <Card style={{ width: '18rem' }}>
+    <Card>
       <Card.Img variant='top' src={props.avatar} />
 
       <Card.Body>
