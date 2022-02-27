@@ -1,34 +1,41 @@
 import { useState, useEffect } from 'react';
 import { httpGet } from 'service/api';
-import { Container, Row, Col, Badge } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
-
-interface IPokemons {
-  name: string;
-}
+import { Container, Row, Col } from 'react-bootstrap';
+import { useParams } from 'react-router-dom';
+import PokemonCard from 'lib/components/PokemonCard';
+import { setLocalStorage } from 'service/localStorage';
 
 const PokemonDetail = () => {
-  const [pokemons, setPokemons] = useState<IPokemons[]>([]);
+  const [pokemon, setPokemon] = useState<any>();
+  const { id } = useParams();
 
   useEffect(() => {
     (async () => {
-      const res = await httpGet('pokemon');
-      setPokemons(res.data.results);
+      const res = await httpGet(`pokemon/${id}`);
+      setPokemon(res.data);
     })();
-  }, []);
+  }, [id]);
 
   return (
     <Container className='mt-5'>
       <Row>
-        {pokemons?.map((v, i) => (
-          <Col key={i}>
-            <Link to={`/`}>
-              <h2>
-                <Badge>{v.name}</Badge>
-              </h2>
-            </Link>
-          </Col>
-        ))}
+        <Col sm={12} md={3}>
+          <PokemonCard
+            avatar={pokemon?.sprites.front_default}
+            name={pokemon?.name}
+            onCatch={() => setLocalStorage('myPokemon', id)}
+          />
+        </Col>
+
+        <Col sm={12} md={9}>
+          <h2>Abilities</h2>
+
+          <ul>
+            {pokemon?.abilities.map((v, i) => (
+              <li key={i}>{v.ability.name}</li>
+            ))}
+          </ul>
+        </Col>
       </Row>
     </Container>
   );

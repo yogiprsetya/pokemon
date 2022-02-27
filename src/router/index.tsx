@@ -7,9 +7,9 @@ const RouteManager = () => {
   return (
     <BrowserRouter>
       <Switch>
-        <Route path='/' component={importer('PokemonList')} />
-        <Route path='/pokemon/:id' element={importer('PokemonDetail')} />
-        <Route path='/my-pokemon' element={importer('MyPokemons')} />
+        <Route path='/' exact component={importer('PokemonList')} />
+        <Route path='/pokemon/:id' component={importer('PokemonDetail')} />
+        <Route path='/my-pokemon' component={importer('MyPokemons')} />
       </Switch>
     </BrowserRouter>
   );

@@ -4,7 +4,7 @@ const Header = () => {
   return (
     <Navbar bg='primary' variant='dark'>
       <Container>
-        <Navbar.Brand href='#home'>Navbar</Navbar.Brand>
+        <Navbar.Brand href='/'>PokeApp</Navbar.Brand>
 
         <Nav className='me-auto'>
           <Nav.Link href='/'>Home</Nav.Link>

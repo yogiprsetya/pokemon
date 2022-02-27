@@ -1,18 +1,22 @@
 import { Card, Button } from 'react-bootstrap';
 import React from 'react';
 
-const PokemonCard = ({ avatar, name }) => {
+interface IPokemonCard {
+  avatar: string;
+  name: string;
+  onCatch(): any;
+}
+
+const PokemonCard = (props: IPokemonCard) => {
   return (
     <Card style={{ width: '18rem' }}>
-      <Card.Img variant='top' src={avatar} />
+      <Card.Img variant='top' src={props.avatar} />
 
       <Card.Body>
-        <Card.Title>{name}</Card.Title>
-        <Card.Text>
-          Some quick example text to build on the card title and make up the
-          bulk of the card's content.
-        </Card.Text>
-        <Button variant='primary'>Go somewhere</Button>
+        <Card.Title>{props.name}</Card.Title>
+        <Button variant='primary' onClick={props.onCatch}>
+          Catch
+        </Button>
       </Card.Body>
     </Card>
   );
