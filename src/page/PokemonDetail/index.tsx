@@ -3,10 +3,11 @@ import { httpGet } from 'service/api';
 import { Container, Row, Col } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 import PokemonCard from 'lib/components/PokemonCard';
-import { setLocalStorage } from 'service/localStorage';
+import SavePokemon from './SavePokemon';
 
 const PokemonDetail = () => {
   const [pokemon, setPokemon] = useState<any>();
+  const [selectedId, setSelectedId] = useState<number>(0);
   const { id } = useParams();
 
   useEffect(() => {
@@ -23,7 +24,7 @@ const PokemonDetail = () => {
           <PokemonCard
             avatar={pokemon?.sprites.front_default}
             name={pokemon?.name}
-            onCatch={() => setLocalStorage('myPokemon', id)}
+            onClick={() => setSelectedId(id)}
           />
         </Col>
 
@@ -37,6 +38,13 @@ const PokemonDetail = () => {
           </ul>
         </Col>
       </Row>
+
+      <SavePokemon
+        show={!!selectedId}
+        id={selectedId}
+        name={pokemon?.name}
+        onClose={() => setSelectedId(0)}
+      />
     </Container>
   );
 };

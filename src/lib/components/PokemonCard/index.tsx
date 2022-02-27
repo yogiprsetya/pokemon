@@ -4,7 +4,8 @@ import React from 'react';
 interface IPokemonCard {
   avatar: string;
   name: string;
-  onCatch(): any;
+  cta?: string;
+  onClick(): any;
 }
 
 const PokemonCard = (props: IPokemonCard) => {
@@ -14,8 +15,9 @@ const PokemonCard = (props: IPokemonCard) => {
 
       <Card.Body>
         <Card.Title>{props.name}</Card.Title>
-        <Button variant='primary' onClick={props.onCatch}>
-          Catch
+
+        <Button variant='primary' onClick={props.onClick}>
+          {props.cta || 'Catch'}
         </Button>
       </Card.Body>
     </Card>

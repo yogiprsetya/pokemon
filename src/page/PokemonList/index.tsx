@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { httpGet } from 'service/api';
-import { Container, Row, Col, Badge } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Container, Row, Col } from 'react-bootstrap';
+import { useHistory } from 'react-router-dom';
+import PokemonCard from 'lib/components/PokemonCard';
 
 interface IPokemons {
   name: string;
@@ -9,7 +10,10 @@ interface IPokemons {
 }
 
 const PokemonList = () => {
+  const history = useHistory();
   const [pokemons, setPokemons] = useState<IPokemons[]>([]);
+
+  const idParser = (url) => url.split('/')[url.split('/').length - 2];
 
   useEffect(() => {
     (async () => {
@@ -22,12 +26,15 @@ const PokemonList = () => {
     <Container className='mt-5'>
       <Row>
         {pokemons?.map((v, i) => (
-          <Col key={i}>
-            <Link to={`/pokemon/${v.url.slice(-2)}`}>
-              <h2>
-                <Badge>{v.name}</Badge>
-              </h2>
-            </Link>
+          <Col key={i} sm={12} md={3} className='mb-3'>
+            <PokemonCard
+              avatar={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${idParser(
+                v.url
+              )}.png`}
+              name={v.name}
+              cta='View'
+              onClick={() => history.push(`pokemon/${idParser(v.url)}`)}
+            />
           </Col>
         ))}
       </Row>
